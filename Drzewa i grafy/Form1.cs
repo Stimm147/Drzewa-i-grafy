@@ -1,3 +1,5 @@
+using System.CodeDom.Compiler;
+
 namespace Drzewa_i_grafy
 {
     public partial class Form1 : Form
@@ -63,7 +65,8 @@ namespace Drzewa_i_grafy
         }
 
         List<Wezel2> odwiedzone = new();
-
+        List<Wezel2> temp = new();
+        
         void A(Wezel2 w)
         {
             odwiedzone.Add(w);
@@ -75,6 +78,31 @@ namespace Drzewa_i_grafy
                 if (!odwiedzone.Contains(sasiad))
                 {
                     A(sasiad);
+                }
+            }
+        }
+        void A_w_szerz(Wezel2 w)
+        {
+            temp.RemoveAt(0);
+            odwiedzone.Add(w);
+            MessageBox.Show(w.ToString());
+
+            foreach (var sasiad in w.sasiedzi)
+            {
+                if (!odwiedzone.Contains(sasiad) && !temp.Contains(sasiad))
+                {
+                    temp.Add(sasiad);
+                }
+                
+            }
+            if(temp.Count > 0) { 
+                foreach (var sasiad1 in temp)
+                {
+                    A_w_szerz(sasiad1);
+                    if (temp.Count < 1)
+                    {
+                        break;
+                    }
                 }
             }
         }
@@ -126,8 +154,8 @@ namespace Drzewa_i_grafy
             w5.Add(w7);
 
             odwiedzone.Clear();
-
-            A(w1);
+            temp.Add(w1);
+            A_w_szerz(w1);
         }
     }
 }
