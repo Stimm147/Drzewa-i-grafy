@@ -54,6 +54,73 @@ namespace Drzewa_i_grafy
 
         }
 
+        public class Wezel3
+        {
+            public int wartosc;
+
+            public Wezel3 rodzic;
+            public Wezel3 lewe_dziecko;
+            public Wezel3 prawe_dziecko;
+
+            public Wezel3(int liczba)
+            {
+                this.wartosc = liczba;
+            }
+
+            public override string ToString()
+            {
+                return "Wartoœæ: " + this.wartosc.ToString();
+            }
+        }
+
+        public class DrzewoBinarne
+        {
+            public Wezel3 korzen;
+            public int liczba_wezlow;
+
+            public DrzewoBinarne(int liczba)
+            {
+                this.korzen = new(liczba);
+                this.liczba_wezlow = 1;
+            }
+
+            Wezel3 ZnajdzWezel(int liczba)
+            {
+                var w = this.korzen;
+                //tutaj petla
+                //w = w.lewe_dziecko;
+            }
+            public void Add(int liczba)
+            {
+                var rodzic = this.ZnajdzWezel(liczba);
+
+                //if (liczba < this.korzen.wartosc)
+                //{
+                //    if (this.korzen.lewe_dziecko == null)
+                //    {
+                //        this.korzen.lewe_dziecko = new Wezel3(liczba);
+                //        this.korzen.lewe_dziecko.rodzic = this.korzen;
+                //    }
+                //    else
+                //    {
+                //        this.Add(liczba);
+                //    }
+                //}
+                //else
+                //{
+                //    if (this.korzen.prawe_dziecko == null)
+                //    {
+                //        this.korzen.prawe_dziecko = new Wezel3(liczba);
+                //        this.korzen.prawe_dziecko.rodzic = this.korzen;
+                //    }
+                //    else
+                //    {
+                //        this.Add(liczba);
+                //    }
+                //}
+            }
+        }
+
         void A(Wezel w)
         {
             MessageBox.Show(w.ToString());
@@ -93,16 +160,13 @@ namespace Drzewa_i_grafy
                 {
                     temp.Add(sasiad);
                 }
-                
             }
-            if(temp.Count > 0) { 
-                foreach (var sasiad1 in temp)
+            foreach (var sasiad1 in temp)
+            {
+                A_w_szerz(sasiad1);
+                if (temp.Count < 1)
                 {
-                    A_w_szerz(sasiad1);
-                    if (temp.Count < 1)
-                    {
-                        break;
-                    }
+                    break;
                 }
             }
         }
