@@ -132,7 +132,79 @@ namespace Drzewa_i_grafy
                     }
                 }
             }
-            
+
+            public Wezel3? Znajdz(int liczba)
+            {
+                var w = this.korzen;
+
+                while (true)
+                {
+                    if (liczba == w.wartosc)
+                        return w;
+                    else if (liczba < w.wartosc)
+                        w = w.lewe_dziecko;
+                    else if (liczba > w.wartosc)
+                        w = w.prawe_dziecko;
+                    else
+                        return null;
+                }
+            }
+            public Wezel3 ZnajdzMin(Wezel3 w)
+            {
+                while (true)
+                {
+                    if (w.lewe_dziecko == null)
+                        return w;
+                    else
+                        w = w.lewe_dziecko;
+                }
+            }
+            public Wezel3 ZnajdzMax(Wezel3 w)
+            {
+                while (true)
+                {
+                    if (w.prawe_dziecko == null)
+                        return w;
+                    else
+                        w = w.prawe_dziecko;
+                }
+            }
+            public Wezel3? Nastepnik(Wezel3 w)
+            {
+                if (w.prawe_dziecko != null)
+                    return ZnajdzMin(w.prawe_dziecko);
+                else if (w.prawe_dziecko == null)
+                {
+                    while (true)
+                    {
+                        if (w.rodzic.lewe_dziecko == w)
+                            return w.rodzic;
+                        else
+                            w = w.rodzic;
+                    }
+                }
+                else
+                    return null;
+
+            }
+            public Wezel3? Poprzednik(Wezel3 w)
+            {
+                if (w.lewe_dziecko != null)
+                    return ZnajdzMax(w.lewe_dziecko);
+                else if (w.lewe_dziecko == null)
+                {
+                    while (true)
+                    {
+                        if (w.rodzic.prawe_dziecko == w)
+                            return w.rodzic;
+                        else
+                            w = w.rodzic;
+                    }
+                }
+                else
+                    return null;
+            }
+
 
         }
         void A(Wezel w)
