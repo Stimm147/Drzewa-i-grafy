@@ -240,11 +240,11 @@ namespace Drzewa_i_grafy
         {
             var uuh = new DrzewoBinarne(5);
             uuh.Add(3);
+            uuh.Add(2);
+            uuh.Add(11);
             uuh.Add(4);
-            uuh.Add(8);
-            uuh.Add(7);
-            uuh.Add(6);
-            uuh.Add(5);
+            //uuh.Add(6);
+            MessageBox.Show(uuh.korzen.prawe_dziecko.wartosc.ToString());
         }
         
     }
