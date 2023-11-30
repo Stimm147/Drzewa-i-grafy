@@ -71,6 +71,19 @@ namespace Drzewa_i_grafy
             {
                 return "Wartoœæ: " + this.wartosc.ToString();
             }
+            public void Add(int liczba)
+            {
+                var dziecko = new Wezel3(liczba);
+                dziecko.rodzic = this;
+                if (liczba < this.wartosc)
+                {
+                    this.lewe_dziecko = dziecko;
+                }
+                else
+                {
+                    this.prawe_dziecko = dziecko;
+                }
+            }
         }
 
         public class DrzewoBinarne
@@ -83,41 +96,44 @@ namespace Drzewa_i_grafy
                 this.korzen = new(liczba);
                 this.liczba_wezlow = 1;
             }
-
-            Wezel3 ZnajdzWezelPoKtorymNull(int liczba, Wezel3 w)
-            {
-                if (liczba < w.wartosc)
-                {
-                    if (w.lewe_dziecko != null)
-                    {
-                        w = w.lewe_dziecko;
-                        ZnajdzWezelPoKtorymNull(w.wartosc, w);
-                    }
-                }
-                else
-                {
-                    if (w.prawe_dziecko != null)
-                    {
-                        w = w.prawe_dziecko;
-                        ZnajdzWezelPoKtorymNull(w.wartosc, w);
-                    }
-                }
-                return w;
-            }
             public void Add(int liczba)
             {
-                var w = ZnajdzWezelPoKtorymNull(liczba, this.korzen);
-                if (liczba < w.wartosc)
+                var rodzic = this.ZnajdzWezelPoKtorymNull(liczba);
+                rodzic.Add(liczba);
+            }
+
+
+            Wezel3 ZnajdzWezelPoKtorymNull(int liczba)
+            {
+                var w = this.korzen;
+                while (true)
                 {
-                    w.lewe_dziecko = new Wezel3(liczba);
-                    w.lewe_dziecko.rodzic = w;
-                }
-                else
-                {
-                    w.prawe_dziecko = new Wezel3(liczba);
-                    w.prawe_dziecko.rodzic = w;
+                    if (liczba < w.wartosc)
+                    {
+                        if (w.lewe_dziecko == null)
+                        {
+                            return w;
+                        }
+                        else
+                        {
+                            w = w.lewe_dziecko;
+                        }
+                    }
+                    else
+                    {
+                        if (w.prawe_dziecko == null)
+                        {
+                            return w;
+                        }
+                        else
+                        {
+                            w = w.prawe_dziecko;
+                        }
+                    }
                 }
             }
+            
+
         }
         void A(Wezel w)
         {
@@ -222,12 +238,14 @@ namespace Drzewa_i_grafy
 
         private void button3_Click(object sender, EventArgs e)
         {
-            DrzewoBinarne uuh = new(5);
+            var uuh = new DrzewoBinarne(5);
             uuh.Add(3);
-            uuh.Add(10);
-            uuh.Add(3);
-            //uuh.Add(6);
-            MessageBox.Show(uuh.korzen.prawe_dziecko.wartosc.ToString());
+            uuh.Add(4);
+            uuh.Add(8);
+            uuh.Add(7);
+            uuh.Add(6);
+            uuh.Add(5);
         }
+        
     }
 }
