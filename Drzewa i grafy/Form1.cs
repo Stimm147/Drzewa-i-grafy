@@ -172,7 +172,7 @@ namespace Drzewa_i_grafy
             public Wezel3? Nastepnik(Wezel3 w)
             {
                 if (w.prawe_dziecko != null)
-                    return ZnajdzMin(w.prawe_dziecko);
+                    return this.ZnajdzMin(w.prawe_dziecko);
                 else if (w.prawe_dziecko == null)
                 {
                     while (true)
@@ -187,10 +187,12 @@ namespace Drzewa_i_grafy
                     return null;
 
             }
+
+
             public Wezel3? Poprzednik(Wezel3 w)
             {
                 if (w.lewe_dziecko != null)
-                    return ZnajdzMax(w.lewe_dziecko);
+                    return this.ZnajdzMax(w.lewe_dziecko);
                 else if (w.lewe_dziecko == null)
                 {
                     while (true)
@@ -203,6 +205,54 @@ namespace Drzewa_i_grafy
                 }
                 else
                     return null;
+            }
+            public Wezel3 Usun(Wezel3 w)
+            {
+                if(w.lewe_dziecko == null && w.prawe_dziecko == null)
+                {
+                    if(w == w.rodzic.prawe_dziecko)
+                    {
+                        w.rodzic.prawe_dziecko = null;
+                    }
+                    else
+                    {
+                        w.rodzic.prawe_dziecko = null;
+                    }
+                    w.rodzic = null;
+                    return w;
+                }
+                else if (w.lewe_dziecko == null && w.prawe_dziecko != null)
+                {
+                    if (w == w.rodzic.prawe_dziecko)
+                    {
+
+                        w.prawe_dziecko.rodzic = w.rodzic;
+                        w.rodzic.prawe_dziecko = w.prawe_dziecko;
+                    }
+                    else
+                    {
+                        w.prawe_dziecko.rodzic = w.rodzic;
+                        w.rodzic.lewe_dziecko = w.prawe_dziecko;
+                    }
+                    w.prawe_dziecko = null;
+                    w.rodzic = null;
+                }
+                else if (w.lewe_dziecko != null && w.prawe_dziecko == null)
+                {
+                    if (w == w.rodzic.prawe_dziecko)
+                    {
+
+                        w.lewe_dziecko.rodzic = w.rodzic;
+                        w.rodzic.prawe_dziecko = w.lewe_dziecko;
+                    }
+                    else
+                    {
+                        w.lewe_dziecko.rodzic = w.rodzic;
+                        w.rodzic.lewe_dziecko = w.lewe_dziecko;
+                    }
+                    w.prawe_dziecko = null;
+                    w.rodzic = null;
+                }
             }
 
 
