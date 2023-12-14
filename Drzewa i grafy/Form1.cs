@@ -206,17 +206,17 @@ namespace Drzewa_i_grafy
                 else
                     return null;
             }
-            public Wezel3 Usun(Wezel3 w)
+            public Wezel3? Usun(Wezel3 w)
             {
-                if(w.lewe_dziecko == null && w.prawe_dziecko == null)
+                if (w.lewe_dziecko == null && w.prawe_dziecko == null)
                 {
-                    if(w == w.rodzic.prawe_dziecko)
+                    if (w == w.rodzic.prawe_dziecko)
                     {
                         w.rodzic.prawe_dziecko = null;
                     }
                     else
                     {
-                        w.rodzic.prawe_dziecko = null;
+                        w.rodzic.lewe_dziecko = null;
                     }
                     w.rodzic = null;
                     return w;
@@ -253,6 +253,53 @@ namespace Drzewa_i_grafy
                     w.prawe_dziecko = null;
                     w.rodzic = null;
                 }
+                else
+                {
+                    if (w.lewe_dziecko != null && w.prawe_dziecko != null)
+                    {
+                        Wezel3 nast = Nastepnik(w);
+                        if (nast.prawe_dziecko == null && nast.lewe_dziecko != null)
+                        {
+                            nast.rodzic.lewe_dziecko = null;
+                        }
+                        else if (nast.lewe_dziecko == null && nast.prawe_dziecko != null)
+                        {
+                            nast.prawe_dziecko.rodzic = nast.rodzic;
+                            nast.rodzic.lewe_dziecko = nast.prawe_dziecko;
+                        }
+                        else
+                        {
+                           
+                        }
+                        if (w.rodzic == null)
+                        {
+                            nast.rodzic = null;
+                            korzen = nast;
+                        }
+                        else
+                        {
+                            if (w.rodzic.lewe_dziecko == w)
+                                w.rodzic.lewe_dziecko = nast;
+                            else
+                                w.rodzic.prawe_dziecko = nast;
+                            nast.rodzic = w.rodzic;
+                            w.rodzic = null;
+                        }
+                        if(w.prawe_dziecko != nast)
+                            nast.prawe_dziecko = w.prawe_dziecko;
+                        if(w.lewe_dziecko!= nast)
+                            nast.lewe_dziecko = w.lewe_dziecko;
+
+                        if(nast.prawe_dziecko != null)
+                            nast.prawe_dziecko.rodzic = nast;
+                        if (nast.lewe_dziecko != null)
+                            nast.lewe_dziecko.rodzic = nast;
+
+                        w.prawe_dziecko = null;
+                        w.lewe_dziecko = null;
+                    }
+                }
+                return w;
             }
 
 
@@ -361,13 +408,13 @@ namespace Drzewa_i_grafy
         private void button3_Click(object sender, EventArgs e)
         {
             var uuh = new DrzewoBinarne(5);
+            uuh.Add(10);
             uuh.Add(3);
-            uuh.Add(2);
-            uuh.Add(11);
-            uuh.Add(4);
-            //uuh.Add(6);
-            MessageBox.Show(uuh.korzen.prawe_dziecko.wartosc.ToString());
+            uuh.Add(9);
+            uuh.Add(7);
+            uuh.Add(8);
+            MessageBox.Show(uuh.Usun(uuh.korzen.lewe_dziecko).ToString());
         }
-        
+
     }
 }
